@@ -3,44 +3,43 @@ name: Flutter Android Build
 on:
   push:
     branches:
-      - main  # 当推送到 main 分支时触发
+      - main
   pull_request:
     branches:
-      - main  # 当有 pull request 合并到 main 分支时触发
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    # Step 1: Checkout the code from the repository
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # Step 2: Set up Flutter environment
-    - name: Setup Flutter
-    - uses: subosito/flutter-action@v2
+    - name: Setup Java
+      uses: actions/setup-java@v3
       with:
-        flutter-version: '3.22.0' 
-        
+        distribution: 'zulu'
+        java-version: '11'
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.22.0'
+        channel: 'stable'
+
     - name: Verify Flutter and Dart versions
       run: |
-        flutter --version   # 查看当前 Flutter 版本
-        dart --version      # 查看当前 Dart 版本
-        
-    # Step 3: Install dependencies
+        flutter --version
+        dart --version
+
     - name: Install dependencies
       run: flutter pub get
 
-    # Step 4: Run Flutter build to generate APK
     - name: Build APK
       run: flutter build apk --release
 
-    # Step 5: Upload the APK as a build artifact
     - name: Upload APK
       uses: actions/upload-artifact@v3
       with:
         name: apk-release
         path: build/app/outputs/flutter-apk/app-release.apk
-
-          
