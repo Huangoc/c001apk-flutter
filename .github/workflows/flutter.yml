@@ -1,0 +1,41 @@
+name: Flutter Android Build
+
+on:
+  push:
+    branches:
+      - main  # 当推送到 main 分支时触发
+  pull_request:
+    branches:
+      - main  # 当有 pull request 合并到 main 分支时触发
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the code from the repository
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Step 2: Set up Flutter environment
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: 'stable'
+
+    # Step 3: Install dependencies
+    - name: Install dependencies
+      run: flutter pub get
+
+    # Step 4: Run Flutter build to generate APK
+    - name: Build APK
+      run: flutter build apk --release
+
+    # Step 5: Upload the APK as a build artifact
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: apk-release
+        path: build/app/outputs/flutter-apk/app-release.apk
+
+          
