@@ -22,7 +22,12 @@ jobs:
       uses: subosito/flutter-action@v2
       with:
         flutter-version: '3.13.0'
-
+        
+    - name: Verify Flutter and Dart versions
+      run: |
+        flutter --version   # 查看当前 Flutter 版本
+        dart --version      # 查看当前 Dart 版本
+        
     # Step 3: Install dependencies
     - name: Install dependencies
       run: flutter pub get
