@@ -19,9 +19,10 @@ jobs:
 
     # Step 2: Set up Flutter environment
     - name: Setup Flutter
-      uses: subosito/flutter-action@v2
+      uses: flutter/setup-flutter@v2
       with:
-        flutter-version: '3.13.0'
+        flutter-version: '3.13.0'  # 使用 Dart 3.3.4 的 Flutter 版本
+        channel: 'stable'
         
     - name: Verify Flutter and Dart versions
       run: |
